@@ -1,10 +1,20 @@
-package flashcom;
+package com.cyhex.flashcom.lib;
 
-public class Transimiter {
+import android.hardware.Camera;
 
-    public static final int TIME_LOW = 100;
-    public static final int TIME_HIGH = 50;
+public class Transmitter {
+
+    public static final int TIME_LOW = 60;
+    public static final int TIME_HIGH = 40;
     public static final int TIME_LIGHT_PULSE = 50;
+
+    private Camera cam;
+    private Camera.Parameters params;
+
+    public Transmitter(Camera cam) {
+        this.cam = cam;
+        this.params = cam.getParameters();
+    }
 
     public void transmit(String str) throws InterruptedException {
         String binaryString = toBinaryString(str);
@@ -22,11 +32,13 @@ public class Transimiter {
     }
 
     private void on() {
-
+        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        cam.setParameters(params);
     }
 
     private void off() {
-
+        params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        cam.setParameters(params);
     }
 
     private String toBinaryString(String str) {
