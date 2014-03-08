@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <EditTextPreference
+            android:key="light_pulse"
+            android:title="Light Pulse"
+            android:summary="Light pulse in ms"
+            android:defaultValue="50"
+            android:numeric="integer"
+            android:inputType="number"></EditTextPreference>
+
+        <EditTextPreference
+            android:key="low_pulse"
+            android:title="Low Pulse"
+            android:summary="Low pulse in ms"
+            android:defaultValue="40"
+            android:numeric="integer"
+            android:inputType="number"></EditTextPreference>
+        <EditTextPreference
+            android:key="high_pulse"
+            android:title="High Pulse"
+            android:summary="High pulse in ms"
+            android:defaultValue="60"
+            android:numeric="integer"
+            android:inputType="number"></EditTextPreference>
+
+    </PreferenceCategory>
+</PreferenceScreen>
