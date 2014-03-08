@@ -4,12 +4,36 @@ import android.hardware.Camera;
 
 public class Transmitter {
 
-    public static final int TIME_LOW = 60;
-    public static final int TIME_HIGH = 40;
-    public static final int TIME_LIGHT_PULSE = 50;
+    private int timeLow = 60;
+    private int timeHigh = 40;
+    private int timeLightPulse = 50;
 
     private Camera cam;
     private Camera.Parameters params;
+
+    public int getTimeLow() {
+        return timeLow;
+    }
+
+    public void setTimeLow(int timeLow) {
+        this.timeLow = timeLow;
+    }
+
+    public int getTimeHigh() {
+        return timeHigh;
+    }
+
+    public void setTimeHigh(int timeHigh) {
+        this.timeHigh = timeHigh;
+    }
+
+    public int getTimeLightPulse() {
+        return timeLightPulse;
+    }
+
+    public void setTimeLightPulse(int timeLightPulse) {
+        this.timeLightPulse = timeLightPulse;
+    }
 
     public Transmitter(Camera cam) {
         this.cam = cam;
@@ -21,12 +45,12 @@ public class Transmitter {
 
         for (char c : binaryString.toCharArray()) {
             on();
-            Thread.sleep(TIME_LIGHT_PULSE);
+            Thread.sleep(timeLightPulse);
             off();
             if (c == '0') {
-                Thread.sleep(TIME_LOW);
+                Thread.sleep(timeLow);
             } else {
-                Thread.sleep(TIME_HIGH);
+                Thread.sleep(timeHigh);
             }
         }
     }

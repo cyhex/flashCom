@@ -1,9 +1,13 @@
 package com.cyhex.flashcom;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -17,7 +21,9 @@ import android.widget.EditText;
 import com.cyhex.flashcom.lib.Transmitter;
 
 public class MainActivity extends ActionBarActivity {
+
     private ProgressDialog progress;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +53,8 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -71,6 +78,7 @@ public class MainActivity extends ActionBarActivity {
     public void sendData(View view) {
         EditText editTest = (EditText) findViewById(R.id.editText);
         final String data = editTest.getText().toString();
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         progress = ProgressDialog.show(MainActivity.this, "Sending", "Sending data: " + data);
         new Thread(new Runnable() {
@@ -80,6 +88,9 @@ public class MainActivity extends ActionBarActivity {
                     Camera cam = Camera.open();
                     cam.startPreview();
                     Transmitter t = new Transmitter(cam);
+                    t.setTimeHigh(Integer.parseInt(sharedPref.getString("high_pulse", "60")));
+                    t.setTimeLow(Integer.parseInt(sharedPref.getString("low_pulse", "40")));
+                    t.setTimeLightPulse(Integer.parseInt(sharedPref.getString("light_pulse", "50")));
                     t.transmit(data);
                     cam.stopPreview();
                     cam.release();
