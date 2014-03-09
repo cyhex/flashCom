@@ -24,6 +24,8 @@ public class MainActivity extends ActionBarActivity {
 
     private ProgressDialog progress;
     private SharedPreferences sharedPref;
+    private PulseView pulseView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
