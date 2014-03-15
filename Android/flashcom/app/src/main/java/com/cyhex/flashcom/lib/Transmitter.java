@@ -1,6 +1,7 @@
 package com.cyhex.flashcom.lib;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 public class Transmitter {
 
@@ -43,6 +44,7 @@ public class Transmitter {
     public void transmit(String str) throws InterruptedException {
         String binaryString = toBinaryString(str);
 
+        Log.i("Transmitter", binaryString);
         for (char c : binaryString.toCharArray()) {
             on();
             Thread.sleep(timeLightPulse);
@@ -70,9 +72,10 @@ public class Transmitter {
         byte[] bytes = str.getBytes();
 
         for (byte b : bytes) {
-            r += Integer.toBinaryString(b);
+            r += String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0');
         }
         return r;
+
     }
 
 }
