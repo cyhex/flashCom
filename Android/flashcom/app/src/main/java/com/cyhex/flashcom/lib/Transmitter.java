@@ -6,12 +6,12 @@ import android.util.Log;
 
 public class Transmitter {
 
-    private int timeLow = 60;
-    private int timeHigh = 40;
-    private int timeLightPulse = 50;
+    private int timeLow = 40;
+    private int timeHigh = 80;
+    private int timeLightPulse = 40;
 
     private Camera cam;
-    private Camera.Parameters params;
+    private Camera.Parameters paramOn, paramOff;
 
     public int getTimeLow() {
         return timeLow;
@@ -39,7 +39,10 @@ public class Transmitter {
 
     public Transmitter(Camera cam) {
         this.cam = cam;
-        this.params = cam.getParameters();
+        this.paramOn = cam.getParameters();
+        this.paramOff = cam.getParameters();
+        this.paramOn.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+        this.paramOff.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
     }
 
     public void transmit(String str) throws InterruptedException {
@@ -61,13 +64,11 @@ public class Transmitter {
     }
 
     private void on() {
-        params.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        cam.setParameters(params);
+        cam.setParameters(paramOn);
     }
 
     private void off() {
-        params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        cam.setParameters(params);
+        cam.setParameters(paramOff);
     }
 
     private String toBinaryString(String str) {
