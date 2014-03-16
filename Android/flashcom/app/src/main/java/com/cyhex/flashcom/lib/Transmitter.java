@@ -1,6 +1,7 @@
 package com.cyhex.flashcom.lib;
 
 import android.hardware.Camera;
+import android.os.SystemClock;
 import android.util.Log;
 
 public class Transmitter {
@@ -43,7 +44,6 @@ public class Transmitter {
 
     public void transmit(String str) throws InterruptedException {
         String binaryString = toBinaryString(str);
-
         Log.i("Transmitter", binaryString);
         for (char c : binaryString.toCharArray()) {
             on();
