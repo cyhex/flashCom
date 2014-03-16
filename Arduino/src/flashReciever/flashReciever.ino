@@ -9,8 +9,8 @@ int ambientLight = 0;
 
 const boolean debug = true;
 // signal length in ms
-const int signalLenHigh = 200; 
-const int signalLenLow = 100;
+const int signalLenHigh = 80; 
+const int signalLenLow = 40;
 
 // 0 - dark , 1 - light
 int signalStateLast = 0;
