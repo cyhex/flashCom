@@ -7,7 +7,7 @@ int msDeley = 50;
 int sensorValue = 0;
 int ambientLight = 0;
 
-const boolean debug = false;
+const boolean debug = true;
 // signal length in ms
 const int signalLenHigh = 200; 
 const int signalLenLow = 100;
@@ -35,11 +35,10 @@ void setup() {
       delay(100);
   }
   ambientLight = max(500, ambientLight);
-  lcdLine = "Ok: (H:";
+  lcdLine = "Ok H:";
   lcdLine += signalLenHigh;
   lcdLine += " L:";
   lcdLine += signalLenLow;
-  lcdLine += ")";
   lcd.print(lcdLine);
   Serial.println(lcdLine);
   lcd.setCursor(0, 1);
@@ -55,14 +54,15 @@ char getBinChar(){
     return '-';
   }
 
-  if(signalLen >= signalLenLow * 0.3 &&  signalLen <= signalLenLow * 1.3){
+  if(signalLen >= signalLenLow * 0.3 &&  signalLen <= signalLenLow * 1.5){
+    monitorSignalLen(signalLen , '0');
     return '0';
   }else if(signalLen >= signalLenHigh * 0.8 &&  signalLen <= signalLenHigh * 2){
+    monitorSignalLen(signalLen , '1');
     return '1';
   }else if(signalLen > signalLenHigh*3) {
     // long  sig - reset 
-    Serial.print("RESET : ");
-    Serial.println(signalLen);
+    monitorSignalLen(signalLen , '-');
     recieved = "";
     inByte = "";
     return '-';
@@ -74,6 +74,14 @@ char getBinChar(){
   
 }
 
+void monitorSignalLen(long sig, char c){
+  if(debug){
+    Serial.print("plot:");
+    Serial.print(sig);
+    Serial.print(":");
+    Serial.println(c);
+  }
+}
 
 // the loop routine runs over and over again forever:
 void loop() {
@@ -92,11 +100,7 @@ void loop() {
     signalLen = millis() - signalLastTime;
     // signal change
     char cBit = getBinChar();
-    if(debug){
-      Serial.print(cBit);
-      Serial.print('|');
-      Serial.println(signalLen);
-    }
+    
     if(cBit != '-'){
       digitalWrite(A4, 1);
       inByte += cBit; 
@@ -114,7 +118,7 @@ void loop() {
   if(inByte.length() == 8){
     const char * c = inByte.c_str();
     recieved += (char) strtol(c, NULL, 2);
-    Serial.println(recieved);
+    //Serial.println(recieved);
     lcd.setCursor(0, 0);
     lcd.clear();
     lcd.print(recieved);
