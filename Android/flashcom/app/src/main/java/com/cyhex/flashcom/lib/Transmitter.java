@@ -55,6 +55,9 @@ public class Transmitter {
                 Thread.sleep(timeHigh);
             }
         }
+        on();
+        Thread.sleep(timeLightPulse);
+        off();
     }
 
     private void on() {

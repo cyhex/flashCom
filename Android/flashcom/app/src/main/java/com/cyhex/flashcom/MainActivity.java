@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
         progress = ProgressDialog.show(MainActivity.this, "Sending", "Sending data: " + data);
-        new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable() {
             public void run() {
 
                 try {
@@ -101,7 +101,9 @@ public class MainActivity extends ActionBarActivity {
                 }
                 handler.sendEmptyMessage(0);
             }
-        }).start();
+        });
+        t.setPriority(Thread.MAX_PRIORITY);
+        t.start();
 
     }
 
