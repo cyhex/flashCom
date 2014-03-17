@@ -11,6 +11,14 @@ Pulse timing:
     |           |-----------|           |----------------------|           |
 
 
+
+Youtube video
+-------------
+
+http://youtu.be/680F0urDPRM
+
+
+
 Transfer rate and limitations
 -----------------------------
 even at this rates, android produces non consistent timing, thus creating errors in the data stream.
